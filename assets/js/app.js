@@ -13,17 +13,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   var database = firebase.database();
 
-  //button for adding trains
+  // button for adding trains
   document.querySelector("#add-train-btn").addEventListener("click", function(event) {
       event.preventDefault();
 
     // variables to capture user input
-      var tName = doucment.querySelector("#train-name-input").value.trim();
+      var tName = document.querySelector("#train-name-input").value.trim();
       var tDestination = document.querySelector("#destination-input").value.trim();
       var tFirst = document.querySelector("#first-input").value.trim();
       var tFrequency = document.querySelector("#frequency-input").value.trim();
 
-      //create local "temp" object for holding train data
+      tFirst = moment().format("h:mm:ss a");
+
+      // create local "temp" object for holding train data
       var newTrain = {
           train: tName,
           destination: tDestination,
@@ -31,12 +33,54 @@ document.addEventListener("DOMContentLoaded", () => {
           frequency: tFrequency
       };
 
-      //uploads train data to the database
+      // uploads train data to the database
+      database.ref().push(newTrain);
+
+      // logs everything to console
+      console.log(newTrain.train);
+      console.log(newTrain.destination);
+      console.log(newTrain.first);
+      console.log(newTrain.frequency);
+
+      // alert user that you added a new train
+      alert("Added Train!");
+
+      //clear all of the text-boxes
+      document.querySelector("#train-name-input").value =""
+      document.querySelector("#destination-input").value =""
+      document.querySelector("#first-input").value =""
+      document.querySelector("#frequency-input").value =""
+  }); // end of click event
+
+  // create a firebase event for adding train to the database and a row in the html when a user adds an entry
+  database.ref().on("child_added", function(childSnapshot) {
+      console.log(childSnapshot.val());
+
+      // store everything into a var
+      var tName = childSnapshot.val().train;
+      var tDestination = childSnapshot.val().destination;
+      var tFirst = childSnapshot.val().first;
+      var tFrequency = childSnapshot.val().frequency;
+
+      // train info
+      console.log(tName);
+      console.log(tDestination);
+      console.log(tFirst);
+      console.log(tFrequency);
+
+      // create a temp object of our values
+      let tempData = {
+          train: tName,
+          destination: tDestination,
+
+      };
+
   })
 
-});
 
-// jQuery document.on("ready")
-// $(function() {
-  
-// });
+
+
+
+
+
+});
