@@ -1,4 +1,5 @@
 // JS
+document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize Firebase
   var config = {
@@ -20,6 +21,7 @@
     // variables to capture user input
       var tName = document.querySelector("#train-name-input").value.trim();
       var tDestination = document.querySelector("#destination-input").value.trim();
+      
     //use of moment js
       var tFirst = moment(document.querySelector("#first-input").value.trim(), "hh:mm").format("X");
       var tFrequency = document.querySelector("#frequency-input").value.trim();
@@ -27,7 +29,6 @@
       //current time
       var currentTime = moment();
       console.log(moment(currentTime).format("hh:mm"));
-
 
       // create local "temp" object for holding train data
       var newTrain = {
@@ -89,13 +90,8 @@
       var nextArrival = moment().add(untilMins, "minutes").format("hh:mm");
 
       //display the info on table
-      
-
+      document.querySelector("#schedule-table").append("<tr><td>" + tName + "</td><td>" + tDestination + "</td><td>" + tFrequency + "</td><td>" + nextArrival + "</td><td>" + untilMins + "</td></tr>");
 
   });
 
-
-
-
-
-
+});
