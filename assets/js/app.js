@@ -1,6 +1,6 @@
 // JS
-document.addEventListener("DOMContentLoaded", () => {
-// Initialize Firebase
+
+  // Initialize Firebase
   var config = {
     apiKey: "AIzaSyDxfTSCkYzPGYczIAGD0HJap58fpzZDI2I",
     authDomain: "train-scheduler-29fc3.firebaseapp.com",
@@ -20,10 +20,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // variables to capture user input
       var tName = document.querySelector("#train-name-input").value.trim();
       var tDestination = document.querySelector("#destination-input").value.trim();
-      var tFirst = document.querySelector("#first-input").value.trim();
+    //use of moment js
+      var tFirst = moment(document.querySelector("#first-input").value.trim(), "hh:mm").format("X");
       var tFrequency = document.querySelector("#frequency-input").value.trim();
 
-      tFirst = moment().format("h:mm:ss a");
+      //current time
+      var currentTime = moment();
+      console.log(moment(currentTime).format("hh:mm"));
+
 
       // create local "temp" object for holding train data
       var newTrain = {
@@ -46,14 +50,15 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Added Train!");
 
       //clear all of the text-boxes
-      document.querySelector("#train-name-input").value =""
-      document.querySelector("#destination-input").value =""
-      document.querySelector("#first-input").value =""
-      document.querySelector("#frequency-input").value =""
+      document.querySelector("#train-name-input").value = "";
+      document.querySelector("#destination-input").value = "";
+      document.querySelector("#first-input").value = "";
+      document.querySelector("#frequency-input").value = "";
   }); // end of click event
 
   // create a firebase event for adding train to the database and a row in the html when a user adds an entry
-  database.ref().on("child_added", function(childSnapshot) {
+  database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+
       console.log(childSnapshot.val());
 
       // store everything into a var
@@ -68,19 +73,29 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log(tFirst);
       console.log(tFrequency);
 
-      // create a temp object of our values
-      let tempData = {
-          train: tName,
-          destination: tDestination,
+      //first train config
+      var tTime = moment.unix(tFirst).format("hh:mm");
 
-      };
+      //difference between times
+      var difference = moment().diff(moment(tTime),"minutes");
 
-  })
+      //remaining time
+      var tRemain = difference % tFrequency;
+
+      //mins until train arrives
+      var untilMins = tFrequency - tRemain;
+
+      //the next arrival time
+      var nextArrival = moment().add(untilMins, "minutes").format("hh:mm");
+
+      //display the info on table
+      
+
+
+  });
 
 
 
 
 
 
-
-});
