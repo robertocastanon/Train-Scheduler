@@ -74,26 +74,30 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log(tFirst);
       console.log(tFrequency);
 
-      //first train config
-      var tTime = moment.unix(tFirst).format("hh:mm");
+      var convertedTime = moment(tFirst, "HH:mm").subtract(1, "years");
+      console.log(convertedTime);
 
-      //difference between times
-      var difference = moment().diff(moment(tTime),"minutes");
+      //currect time
+      var currectTime = moment();
 
-      //remaining time
-      var tRemain = difference % tFrequency;
+      //difference between the times
+      var tDiff = moment().diff(moment(convertedTime), "minutes");
+      console.log("differences in between times: " + tDiff);
+
+      //time apart
+      var tRemainding = tDiff % tFrequency;
+      console.log(tRemainding)
 
       //mins until train arrives
-      var minUntil = tFrequency - tRemain;
+      var minsAway = tFirst - tRemainding;
+      console.log("next train: " + minsAway);
 
-      //the next arrival time
-      var nextArrival = moment().add(minUntil, "minutes").format("hh:mm");
+      //Next train
+      var nextTrain = moment().add(minsAway, "minutes");
+      console.log("arrival time: " + moment(nextTrain).format("HH:mm"));
 
-	  //adding info to DOM table 
-      $("#trains-appear-here").append("<tr><td>" + tName + "</td><td>" + tDestination + "</td><td>" + tFrequency + "</td><td>" + nextArrival + "</td><td>" + minUntil + "</td></tr>");
-
-    //   document.querySelector("#trains-appear-here").append("<tr><td>" + tName + "</td><td>" + tDestination + "</td><td>" + tFrequency + "</td><td>" + nextArrival + "</td><td>" + minUntil + "</td></tr>");
       
+
       
 
   });
