@@ -22,19 +22,19 @@ document.addEventListener("DOMContentLoaded", () => {
       var tName = document.querySelector("#train-name-input").value.trim();
       var tDestination = document.querySelector("#destination-input").value.trim();
 
-    //use of moment js
-      var tFirst = moment(document.querySelector("#first-input").value.trim(), "hh:mm").format("X");
+    //use of moment js to convert time
+      var tFirst = moment(document.querySelector("#first-input").value.trim(), "HH:mm");
       var tFrequency = document.querySelector("#frequency-input").value.trim();
 
       //current time
       var currentTime = moment();
       console.log(moment(currentTime).format("hh:mm"));
 
-      // create local "temp" object for holding train data
+      // create local object for holding train data
       var newTrain = {
           train: tName,
           destination: tDestination,
-          first: tFirst,
+          first: tFirst.format("HH:mm"),
           frequency: tFrequency
       };
 
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log(tRemainding)
 
       //mins until train arrives
-      var minsAway = tFirst - tRemainding;
+      var minsAway = tFrequency - tRemainding;
       console.log("next train: " + minsAway);
 
       //Next train
