@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // variables to capture user input
       var tName = document.querySelector("#train-name-input").value.trim();
       var tDestination = document.querySelector("#destination-input").value.trim();
-      
+
     //use of moment js
       var tFirst = moment(document.querySelector("#first-input").value.trim(), "hh:mm").format("X");
       var tFrequency = document.querySelector("#frequency-input").value.trim();
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }); // end of click event
 
   // create a firebase event for adding train to the database and a row in the html when a user adds an entry
-  database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+  database.ref().on("child_added", function(childSnapshot) {
 
       console.log(childSnapshot.val());
 
@@ -84,13 +84,17 @@ document.addEventListener("DOMContentLoaded", () => {
       var tRemain = difference % tFrequency;
 
       //mins until train arrives
-      var untilMins = tFrequency - tRemain;
+      var minUntil = tFrequency - tRemain;
 
       //the next arrival time
-      var nextArrival = moment().add(untilMins, "minutes").format("hh:mm");
+      var nextArrival = moment().add(minUntil, "minutes").format("hh:mm");
 
-      //display the info on table
-      document.querySelector("#schedule-table").append("<tr><td>" + tName + "</td><td>" + tDestination + "</td><td>" + tFrequency + "</td><td>" + nextArrival + "</td><td>" + untilMins + "</td></tr>");
+	  //adding info to DOM table 
+      $("#trains-appear-here").append("<tr><td>" + tName + "</td><td>" + tDestination + "</td><td>" + tFrequency + "</td><td>" + nextArrival + "</td><td>" + minUntil + "</td></tr>");
+
+    //   document.querySelector("#trains-appear-here").append("<tr><td>" + tName + "</td><td>" + tDestination + "</td><td>" + tFrequency + "</td><td>" + nextArrival + "</td><td>" + minUntil + "</td></tr>");
+      
+      
 
   });
 
