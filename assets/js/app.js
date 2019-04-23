@@ -77,9 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
       var convertedTime = moment(tFirst, "HH:mm").subtract(1, "years");
       console.log(convertedTime);
 
-      //currect time
-      var currectTime = moment();
-
       //difference between the times
       var tDiff = moment().diff(moment(convertedTime), "minutes");
       console.log("differences in between times: " + tDiff);
@@ -95,6 +92,18 @@ document.addEventListener("DOMContentLoaded", () => {
       //Next train
       var nextTrain = moment().add(minsAway, "minutes");
       console.log("arrival time: " + moment(nextTrain).format("HH:mm"));
+
+      //create a new row
+      var newRow = $("<tr>").append (
+          $("<td>").text(tName),
+          $("<td>").text(tDestination),
+          $("<td>").text(tFrequency),
+          $("<td>").text(nextTrain.format("HH:mm")),
+          $("<td>").text(minsAway),
+      );
+
+      //finally  append the new row to the able
+      $("#trains-appear-here").append(newRow);
 
       
 
